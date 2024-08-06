@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Listado</title>
+    {% include 'head.html' %}
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <h2>Listado Tareas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for tarea in tarea %}
+            <tr>
+                <td>{{tarea.descripcion}}</td>
+                <td>
+                    <form action="{% url 'modificar_tarea' tarea.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        {% if tarea.eliminada %}
+                        <button type="submit" class="btn btn-success">
+                            
+                            Realizada
+                            {% else %}
+                            <button type="submit" class="btn btn-secondary">
+                            Pendiente
+                            {% endif %}
+                        </button>
+                    </form>
+                </td>
+                <td><a href="{% url 'eliminar_tarea' tarea.id %}">Eliminar</a></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br><br><br>
+
+    <h2>Listado SubTareas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Tarea</th>
+                <th scope="col">Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for subtarea in subtarea %}
+            <tr>
+                <td>{{subtarea.descripcion}}</td>
+                <td>
+                    <form action="{% url 'modificar_subtarea' subtarea.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                            {% if subtarea.eliminada %}
+                            <button type="submit" class="btn btn-success">
+                            
+                                Realizada
+                                {% else %}
+                                <button type="submit" class="btn btn-secondary">
+                                Pendiente
+                                {% endif %}
+                        </button>
+                    </form>
+                </td>
+                <td>{{subtarea.tarea.descripcion}}</td>
+                <td><a href="{% url 'eliminar_subtarea' subtarea.id %}">Eliminar</a></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

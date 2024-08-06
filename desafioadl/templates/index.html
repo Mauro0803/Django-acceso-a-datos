@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Crear Nueva Tarea</title>
+    {% include 'head.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+   
+    <h1>Crear Nueva Tarea</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class='mb-1'>
+            <label class="form-label" for="{{ field.name }}">{{ field.label }}:</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-dark mx-5 sm-0">Crear</button>
+    </form>
+    <br>
+    {% include 'footer.html' %}
+    
+</body>
+</html>
